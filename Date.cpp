@@ -114,7 +114,36 @@ public:
         }
     }
     void UpdateDate(Date &anotherDate){
-
+        year += anotherDate.year;
+        month += anotherDate.month;
+        day += anotherDate.day;
+        if(month==2 && day > 29 && checkDateinLeapyear(year)){
+            day -= 29;
+            month ++;
+        }
+        else if(month==2 && day > 28 && !checkDateinLeapyear(year)){
+            day -= 28;
+            month ++;
+        }
+        else if(month==1 || month==3 || month == 5 || month ==7 || month == 8 || month == 10){
+            if(day>31){
+                day -= 31;
+                month ++;
+            }
+        }
+        else if(month == 4 || month == 6 || month == 9 || month == 11){
+            if(day>30){
+                day -= 30;
+                month ++;
+            }
+        }
+        else if(month == 12){
+            if(day > 31){
+                day -= 31;
+                month = 1;
+                year ++;
+            }
+        }
     }
     int Difference(Date &anotherDate){
         return abs(CaculateDays()-anotherDate.CaculateDays());
@@ -127,4 +156,10 @@ signed main(){
     scanf("%d/%d/%d",&d,&m,&y);
     Date FirstDate;
     FirstDate.Display();
+    Date Check(d,m,y);
+    Check.checkDateinLeapyear();
+    Check.checkDateAvalabel();
+    Check.UpdateDate(FirstDate);
+    Check.Display();
+    std::cout << Check.Difference(FirstDate);
 }
